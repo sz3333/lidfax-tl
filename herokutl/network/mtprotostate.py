@@ -211,8 +211,8 @@ class MTProtoState:
                 self.update_time_offset(remote_msg_id)
             else:
 
-            remote_msg_time = remote_msg_id >> 32
-            time_delta = (now + self.time_offset) - remote_msg_time
+                remote_msg_time = remote_msg_id >> 32
+                time_delta = (now + self.time_offset) - remote_msg_time
 
             if time_delta > MSG_TOO_OLD_DELTA:
                 self._log.warning('Server sent a very old message with ID %d, ignoring (see FAQ for details)', remote_msg_id)
