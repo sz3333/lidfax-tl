@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A setuptools based setup module.
+"""A setuptools based setup module
 
 See:
 https://packaging.python.org/en/latest/distributing.html
@@ -47,7 +47,7 @@ class TempWorkDir:
 API_REF_URL = 'https://tl.telethon.dev/'
 
 GENERATOR_DIR = Path('telethon_generator')
-LIBRARY_DIR = Path('telethon')
+LIBRARY_DIR = Path('herokutl')
 
 ERRORS_IN = GENERATOR_DIR / 'data/errors.csv'
 ERRORS_OUT = LIBRARY_DIR / 'errors/rpcerrorlist.py'
@@ -179,13 +179,12 @@ def main(argv):
 
         # Try importing the telethon module to assert it has no errors
         try:
-            import telethon
-        except Exception as e:
+            import herokutl
+        except:
             print('Packaging for PyPi aborted, importing the module failed.')
-            print(e)
             return
 
-        remove_dirs = ['__pycache__', 'build', 'dist', 'Telethon.egg-info']
+        remove_dirs = ['__pycache__', 'build', 'dist', 'Heroku-TL.egg-info']
         for root, _dirs, _files in os.walk(LIBRARY_DIR, topdown=False):
             # setuptools is including __pycache__ for some reason (#1605)
             if root.endswith('/__pycache__'):
@@ -196,7 +195,7 @@ def main(argv):
         run('python3 setup.py sdist', shell=True)
         run('python3 setup.py bdist_wheel', shell=True)
         run('twine upload dist/*', shell=True)
-        for x in ('build', 'dist', 'Telethon.egg-info'):
+        for x in ('build', 'dist', 'Heroku-TL.egg-info'):
             shutil.rmtree(x, ignore_errors=True)
 
     else:
@@ -208,22 +207,23 @@ def main(argv):
         with open('README.rst', 'r', encoding='utf-8') as f:
             long_description = f.read()
 
-        with open('telethon/version.py', 'r', encoding='utf-8') as f:
+        with open('herokutl/version.py', 'r', encoding='utf-8') as f:
             version = re.search(r"^__version__\s*=\s*'(.*)'.*$",
                                 f.read(), flags=re.MULTILINE).group(1)
         setup(
-            name='Telethon',
+            name='heroku-tl-new',
             version=version,
-            description="Full-featured Telegram client library for Python 3",
+            description="This library is built for the Heroku userbot and is based on Telethon.",
             long_description=long_description,
+            long_description_content_type="text/markdown",
 
-            url='https://github.com/LonamiWebs/Telethon',
-            download_url='https://github.com/LonamiWebs/Telethon/releases',
+            url='https://github.com/coddrago/heroku-tl',
+            download_url='https://pypi.org/project/heroku-tl-new/',
 
-            author='Lonami Exo',
-            author_email='totufals@hotmail.com',
+            author='Codrago',
+            author_email='codrago@codwiz.ru',
 
-            license='MIT',
+            license='CCBYNCND V4',
 
             # See https://stackoverflow.com/a/40300957/4759433
             # -> https://www.python.org/dev/peps/pep-0345/#requires-python
@@ -252,7 +252,7 @@ def main(argv):
             packages=find_packages(exclude=[
                 'telethon_*', 'tests*'
             ]),
-            install_requires=['pyaes', 'rsa'],
+            install_requires=['pyaes', '', 'aiofile==3.8.1', 'aiofiles==24.1.0', 'gitpython==3.1.27', 'meval==2.5', 'aiohttp_jinja2==1.5', 'aiohttp==3.8.3', 'Jinja2==3.0.3', 'requests==2.27.1', 'aiogram==2.25', 'grapheme==0.6.0', 'emoji==2.1.0', 'werkzeug==2.2.2', 'psutil==6.0.0', 'tgcrypto==1.2.5', 'rsa==4.9', 'ruamel.yaml==0.17.21', 'bs4==0.0.2'],
             extras_require={
                 'cryptg': ['cryptg']
             }
@@ -262,3 +262,5 @@ def main(argv):
 if __name__ == '__main__':
     with TempWorkDir():
         main(sys.argv)
+
+ 

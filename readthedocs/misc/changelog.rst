@@ -13,7 +13,7 @@ it can take advantage of new goodies!
 
 .. contents:: List of All Versions
 
-New layer (v1.40)
+  New layer (v1.40)
 =================
 
 +------------------------+
@@ -43,6 +43,7 @@ Bug fixes
 * ``spoiler`` flag was lost on :tl:`MessageMediaPhoto` auto-input conversion.
 * :tl:`KeyboardButtonCopy` is now recognized as an inline button.
 * Downloading web-documents should now work again. Note that this still fetches the file from the original server.
+
 
 
 New layer (v1.39)
