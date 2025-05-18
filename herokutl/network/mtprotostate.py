@@ -209,8 +209,6 @@ class MTProtoState:
                 # to adjust the time offset. Assume it will remain stable afterwards. Updating
                 # the offset unconditionally would make the next checks pointless.
                 self.update_time_offset(remote_msg_id)
-            else:
-
                 remote_msg_time = remote_msg_id >> 32
                 time_delta = (now + self.time_offset) - remote_msg_time
 
