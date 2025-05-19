@@ -197,22 +197,17 @@ class MTProtoState:
         # reader isn't used for anything else after this, it's unnecessary.
         obj = reader.tgread_object()
 
+        # Calculate time_delta for all messages
+        remote_msg_time = remote_msg_id >> 32
+        time_delta = (now + self.time_offset) - remote_msg_time
+
         # "Certain client-to-server service messages containing data sent by the client to the
         # server (for example, msg_id of a recent client query) may, nonetheless, be processed
         # on the client even if the time appears to be "incorrect". This is especially true of
         # messages to change server_salt and notifications about invalid time on the client."
         #
         # This means we skip the time check for certain types of messages.
-        if obj.CONSTRUCTOR_ID in (BadServerSalt.CONSTRUCTOR_ID, BadMsgNotification.CONSTRUCTOR_ID):
-            if not self._highest_remote_id and not self.time_offset:
-                # If the first message we receive is a bad notification, take this opportunity
-                # to adjust the time offset. Assume it will remain stable afterwards. Updating
-                # the offset unconditionally would make the next checks pointless.
-                self.update_time_offset(remote_msg_id)
-        else:
-            remote_msg_time = remote_msg_id >> 32
-            time_delta = (now + self.time_offset) - remote_msg_time
-
+        if obj.CONSTRUCTOR_ID not in (BadServerSalt.CONSTRUCTOR_ID, BadMsgNotification.CONSTRUCTOR_ID):
             if time_delta > MSG_TOO_OLD_DELTA:
                 self._log.warning('Server sent a very old message with ID %d, ignoring (see FAQ for details)', remote_msg_id)
                 self._count_ignored()
@@ -228,6 +223,7 @@ class MTProtoState:
         self._ignore_count = 0
 
         return TLMessage(remote_msg_id, remote_sequence, obj)
+
 
     def _count_ignored(self):
         # It's possible that ignoring a message "bricks" the connection,
