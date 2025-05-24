@@ -579,7 +579,7 @@ class ResendCodeRequest(TLRequest):
 
     def __init__(self, phone_number: str, phone_code_hash: str, reason: Optional[str]=None):
         """
-        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.phone_number = phone_number
         self.phone_code_hash = phone_code_hash
@@ -640,7 +640,7 @@ class ResetLoginEmailRequest(TLRequest):
 
     def __init__(self, phone_number: str, phone_code_hash: str):
         """
-        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.phone_number = phone_number
         self.phone_code_hash = phone_code_hash
@@ -672,7 +672,7 @@ class SendCodeRequest(TLRequest):
 
     def __init__(self, phone_number: str, api_id: int, api_hash: str, settings: 'TypeCodeSettings'):
         """
-        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.phone_number = phone_number
         self.api_id = api_id

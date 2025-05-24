@@ -459,6 +459,34 @@ class EmojiStatusesNotModified(TLObject):
         return cls()
 
 
+class PaidMessagesRevenue(TLObject):
+    CONSTRUCTOR_ID = 0x1e109708
+    SUBCLASS_OF_ID = 0x152f0c57
+
+    def __init__(self, stars_amount: int):
+        """
+        Constructor for account.PaidMessagesRevenue: Instance of PaidMessagesRevenue.
+        """
+        self.stars_amount = stars_amount
+
+    def to_dict(self):
+        return {
+            '_': 'PaidMessagesRevenue',
+            'stars_amount': self.stars_amount
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'\x08\x97\x10\x1e',
+            struct.pack('<q', self.stars_amount),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        _stars_amount = reader.read_long()
+        return cls(stars_amount=_stars_amount)
+
+
 class Password(TLObject):
     CONSTRUCTOR_ID = 0x957b50fb
     SUBCLASS_OF_ID = 0x53a211a3

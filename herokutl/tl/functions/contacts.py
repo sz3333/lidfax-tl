@@ -470,6 +470,34 @@ class GetSavedRequest(TLRequest):
         return cls()
 
 
+class GetSponsoredPeersRequest(TLRequest):
+    CONSTRUCTOR_ID = 0xb6c8c393
+    SUBCLASS_OF_ID = 0xb45d5ccc
+
+    def __init__(self, q: str):
+        """
+        :returns contacts.SponsoredPeers: Instance of either SponsoredPeersEmpty, SponsoredPeers.
+        """
+        self.q = q
+
+    def to_dict(self):
+        return {
+            '_': 'GetSponsoredPeersRequest',
+            'q': self.q
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'\x93\xc3\xc8\xb6',
+            self.serialize_bytes(self.q),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        _q = reader.tgread_string()
+        return cls(q=_q)
+
+
 class GetStatusesRequest(TLRequest):
     CONSTRUCTOR_ID = 0xc4a353ee
     SUBCLASS_OF_ID = 0xdf815c90

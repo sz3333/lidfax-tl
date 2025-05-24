@@ -6,7 +6,7 @@ import os
 import struct
 from datetime import datetime
 if TYPE_CHECKING:
-    from ...tl.types import TypeAccountDaysTTL, TypeAutoDownloadSettings, TypeAutoSaveSettings, TypeBaseTheme, TypeBirthday, TypeBusinessWorkHours, TypeCodeSettings, TypeEmailVerification, TypeEmailVerifyPurpose, TypeEmojiStatus, TypeGlobalPrivacySettings, TypeInputBusinessAwayMessage, TypeInputBusinessBotRecipients, TypeInputBusinessChatLink, TypeInputBusinessGreetingMessage, TypeInputBusinessIntro, TypeInputChannel, TypeInputCheckPasswordSRP, TypeInputDocument, TypeInputFile, TypeInputGeoPoint, TypeInputNotifyPeer, TypeInputPeer, TypeInputPeerNotifySettings, TypeInputPhoto, TypeInputPrivacyKey, TypeInputPrivacyRule, TypeInputSecureValue, TypeInputTheme, TypeInputThemeSettings, TypeInputUser, TypeInputWallPaper, TypeReactionsNotifySettings, TypeReportReason, TypeSecureCredentialsEncrypted, TypeSecureValueHash, TypeSecureValueType, TypeWallPaperSettings
+    from ...tl.types import TypeAccountDaysTTL, TypeAutoDownloadSettings, TypeAutoSaveSettings, TypeBaseTheme, TypeBirthday, TypeBusinessBotRights, TypeBusinessWorkHours, TypeCodeSettings, TypeEmailVerification, TypeEmailVerifyPurpose, TypeEmojiStatus, TypeGlobalPrivacySettings, TypeInputBusinessAwayMessage, TypeInputBusinessBotRecipients, TypeInputBusinessChatLink, TypeInputBusinessGreetingMessage, TypeInputBusinessIntro, TypeInputChannel, TypeInputCheckPasswordSRP, TypeInputDocument, TypeInputFile, TypeInputGeoPoint, TypeInputNotifyPeer, TypeInputPeer, TypeInputPeerNotifySettings, TypeInputPhoto, TypeInputPrivacyKey, TypeInputPrivacyRule, TypeInputSecureValue, TypeInputTheme, TypeInputThemeSettings, TypeInputUser, TypeInputWallPaper, TypeReactionsNotifySettings, TypeReportReason, TypeSecureCredentialsEncrypted, TypeSecureValueHash, TypeSecureValueType, TypeWallPaperSettings
     from ...tl.types.account import TypePasswordInputSettings
 
 
@@ -58,6 +58,43 @@ class AcceptAuthorizationRequest(TLRequest):
 
         _credentials = reader.tgread_object()
         return cls(bot_id=_bot_id, scope=_scope, public_key=_public_key, value_hashes=_value_hashes, credentials=_credentials)
+
+
+class AddNoPaidMessagesExceptionRequest(TLRequest):
+    CONSTRUCTOR_ID = 0x6f688aa7
+    SUBCLASS_OF_ID = 0xf5b399ac
+
+    def __init__(self, user_id: 'TypeInputUser', refund_charged: Optional[bool]=None):
+        """
+        :returns Bool: This type has no constructors.
+        """
+        self.user_id = user_id
+        self.refund_charged = refund_charged
+
+    async def resolve(self, client, utils):
+        self.user_id = utils.get_input_user(await client.get_input_entity(self.user_id))
+
+    def to_dict(self):
+        return {
+            '_': 'AddNoPaidMessagesExceptionRequest',
+            'user_id': self.user_id.to_dict() if isinstance(self.user_id, TLObject) else self.user_id,
+            'refund_charged': self.refund_charged
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'\xa7\x8aho',
+            struct.pack('<I', (0 if self.refund_charged is None or self.refund_charged is False else 1)),
+            self.user_id._bytes(),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        flags = reader.read_int()
+
+        _refund_charged = bool(flags & 1)
+        _user_id = reader.tgread_object()
+        return cls(user_id=_user_id, refund_charged=_refund_charged)
 
 
 class CancelPasswordEmailRequest(TLRequest):
@@ -373,6 +410,44 @@ class DeclinePasswordResetRequest(TLRequest):
     @classmethod
     def from_reader(cls, reader):
         return cls()
+
+
+class DeleteAccountRequest(TLRequest):
+    CONSTRUCTOR_ID = 0xa2c0cf74
+    SUBCLASS_OF_ID = 0xf5b399ac
+
+    def __init__(self, reason: str, password: Optional['TypeInputCheckPasswordSRP']=None):
+        """
+        :returns Bool: This type has no constructors.
+        """
+        self.reason = reason
+        self.password = password
+
+    def to_dict(self):
+        return {
+            '_': 'DeleteAccountRequest',
+            'reason': self.reason,
+            'password': self.password.to_dict() if isinstance(self.password, TLObject) else self.password
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b't\xcf\xc0\xa2',
+            struct.pack('<I', (0 if self.password is None or self.password is False else 1)),
+            self.serialize_bytes(self.reason),
+            b'' if self.password is None or self.password is False else (self.password._bytes()),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        flags = reader.read_int()
+
+        _reason = reader.tgread_string()
+        if flags & 1:
+            _password = reader.tgread_object()
+        else:
+            _password = None
+        return cls(reason=_reason, password=_password)
 
 
 class DeleteAutoSaveExceptionsRequest(TLRequest):
@@ -1132,6 +1207,37 @@ class GetNotifySettingsRequest(TLRequest):
     def from_reader(cls, reader):
         _peer = reader.tgread_object()
         return cls(peer=_peer)
+
+
+class GetPaidMessagesRevenueRequest(TLRequest):
+    CONSTRUCTOR_ID = 0xf1266f38
+    SUBCLASS_OF_ID = 0x152f0c57
+
+    def __init__(self, user_id: 'TypeInputUser'):
+        """
+        :returns account.PaidMessagesRevenue: Instance of PaidMessagesRevenue.
+        """
+        self.user_id = user_id
+
+    async def resolve(self, client, utils):
+        self.user_id = utils.get_input_user(await client.get_input_entity(self.user_id))
+
+    def to_dict(self):
+        return {
+            '_': 'GetPaidMessagesRevenueRequest',
+            'user_id': self.user_id.to_dict() if isinstance(self.user_id, TLObject) else self.user_id
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'8o&\xf1',
+            self.user_id._bytes(),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        _user_id = reader.tgread_object()
+        return cls(user_id=_user_id)
 
 
 class GetPasswordRequest(TLRequest):
@@ -2236,7 +2342,7 @@ class SendChangePhoneCodeRequest(TLRequest):
 
     def __init__(self, phone_number: str, settings: 'TypeCodeSettings'):
         """
-        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.phone_number = phone_number
         self.settings = settings
@@ -2268,7 +2374,7 @@ class SendConfirmPhoneCodeRequest(TLRequest):
 
     def __init__(self, hash: str, settings: 'TypeCodeSettings'):
         """
-        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.hash = hash
         self.settings = settings
@@ -2332,7 +2438,7 @@ class SendVerifyPhoneCodeRequest(TLRequest):
 
     def __init__(self, phone_number: str, settings: 'TypeCodeSettings'):
         """
-        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        :returns auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.phone_number = phone_number
         self.settings = settings
@@ -2957,17 +3063,17 @@ class UpdateColorRequest(TLRequest):
 
 
 class UpdateConnectedBotRequest(TLRequest):
-    CONSTRUCTOR_ID = 0x43d8521d
+    CONSTRUCTOR_ID = 0x66a08c7e
     SUBCLASS_OF_ID = 0x8af52aac
 
-    def __init__(self, bot: 'TypeInputUser', recipients: 'TypeInputBusinessBotRecipients', can_reply: Optional[bool]=None, deleted: Optional[bool]=None):
+    def __init__(self, bot: 'TypeInputUser', recipients: 'TypeInputBusinessBotRecipients', deleted: Optional[bool]=None, rights: Optional['TypeBusinessBotRights']=None):
         """
         :returns Updates: Instance of either UpdatesTooLong, UpdateShortMessage, UpdateShortChatMessage, UpdateShort, UpdatesCombined, Updates, UpdateShortSentMessage.
         """
         self.bot = bot
         self.recipients = recipients
-        self.can_reply = can_reply
         self.deleted = deleted
+        self.rights = rights
 
     async def resolve(self, client, utils):
         self.bot = utils.get_input_user(await client.get_input_entity(self.bot))
@@ -2977,14 +3083,15 @@ class UpdateConnectedBotRequest(TLRequest):
             '_': 'UpdateConnectedBotRequest',
             'bot': self.bot.to_dict() if isinstance(self.bot, TLObject) else self.bot,
             'recipients': self.recipients.to_dict() if isinstance(self.recipients, TLObject) else self.recipients,
-            'can_reply': self.can_reply,
-            'deleted': self.deleted
+            'deleted': self.deleted,
+            'rights': self.rights.to_dict() if isinstance(self.rights, TLObject) else self.rights
         }
 
     def _bytes(self):
         return b''.join((
-            b'\x1dR\xd8C',
-            struct.pack('<I', (0 if self.can_reply is None or self.can_reply is False else 1) | (0 if self.deleted is None or self.deleted is False else 2)),
+            b'~\x8c\xa0f',
+            struct.pack('<I', (0 if self.deleted is None or self.deleted is False else 2) | (0 if self.rights is None or self.rights is False else 1)),
+            b'' if self.rights is None or self.rights is False else (self.rights._bytes()),
             self.bot._bytes(),
             self.recipients._bytes(),
         ))
@@ -2993,11 +3100,14 @@ class UpdateConnectedBotRequest(TLRequest):
     def from_reader(cls, reader):
         flags = reader.read_int()
 
-        _can_reply = bool(flags & 1)
         _deleted = bool(flags & 2)
+        if flags & 1:
+            _rights = reader.tgread_object()
+        else:
+            _rights = None
         _bot = reader.tgread_object()
         _recipients = reader.tgread_object()
-        return cls(bot=_bot, recipients=_recipients, can_reply=_can_reply, deleted=_deleted)
+        return cls(bot=_bot, recipients=_recipients, deleted=_deleted, rights=_rights)
 
 
 class UpdateDeviceLockedRequest(TLRequest):
