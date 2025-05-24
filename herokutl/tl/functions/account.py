@@ -412,44 +412,6 @@ class DeclinePasswordResetRequest(TLRequest):
         return cls()
 
 
-class DeleteAccountRequest(TLRequest):
-    CONSTRUCTOR_ID = 0xa2c0cf74
-    SUBCLASS_OF_ID = 0xf5b399ac
-
-    def __init__(self, reason: str, password: Optional['TypeInputCheckPasswordSRP']=None):
-        """
-        :returns Bool: This type has no constructors.
-        """
-        self.reason = reason
-        self.password = password
-
-    def to_dict(self):
-        return {
-            '_': 'DeleteAccountRequest',
-            'reason': self.reason,
-            'password': self.password.to_dict() if isinstance(self.password, TLObject) else self.password
-        }
-
-    def _bytes(self):
-        return b''.join((
-            b't\xcf\xc0\xa2',
-            struct.pack('<I', (0 if self.password is None or self.password is False else 1)),
-            self.serialize_bytes(self.reason),
-            b'' if self.password is None or self.password is False else (self.password._bytes()),
-        ))
-
-    @classmethod
-    def from_reader(cls, reader):
-        flags = reader.read_int()
-
-        _reason = reader.tgread_string()
-        if flags & 1:
-            _password = reader.tgread_object()
-        else:
-            _password = None
-        return cls(reason=_reason, password=_password)
-
-
 class DeleteAutoSaveExceptionsRequest(TLRequest):
     CONSTRUCTOR_ID = 0x53bc0020
     SUBCLASS_OF_ID = 0xf5b399ac
