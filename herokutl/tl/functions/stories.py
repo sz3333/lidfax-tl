@@ -44,12 +44,12 @@ class ActivateStealthModeRequest(TLRequest):
 
 
 class CanSendStoryRequest(TLRequest):
-    CONSTRUCTOR_ID = 0xc7dfdfdd
-    SUBCLASS_OF_ID = 0xf5b399ac
+    CONSTRUCTOR_ID = 0x30eb63f0
+    SUBCLASS_OF_ID = 0xcb53a298
 
     def __init__(self, peer: 'TypeInputPeer'):
         """
-        :returns Bool: This type has no constructors.
+        :returns stories.CanSendStoryCount: Instance of CanSendStoryCount.
         """
         self.peer = peer
 
@@ -64,7 +64,7 @@ class CanSendStoryRequest(TLRequest):
 
     def _bytes(self):
         return b''.join((
-            b'\xdd\xdf\xdf\xc7',
+            b'\xf0c\xeb0',
             self.peer._bytes(),
         ))
 

@@ -388,7 +388,7 @@ class SentCode(TLObject):
 
     def __init__(self, type: 'TypeSentCodeType', phone_code_hash: str, next_type: Optional['TypeCodeType']=None, timeout: Optional[int]=None):
         """
-        Constructor for auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        Constructor for auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.type = type
         self.phone_code_hash = phone_code_hash
@@ -431,13 +431,45 @@ class SentCode(TLObject):
         return cls(type=_type, phone_code_hash=_phone_code_hash, next_type=_next_type, timeout=_timeout)
 
 
+class SentCodePaymentRequired(TLObject):
+    CONSTRUCTOR_ID = 0xd7cef980
+    SUBCLASS_OF_ID = 0x6ce87081
+
+    def __init__(self, store_product: str, phone_code_hash: str):
+        """
+        Constructor for auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
+        """
+        self.store_product = store_product
+        self.phone_code_hash = phone_code_hash
+
+    def to_dict(self):
+        return {
+            '_': 'SentCodePaymentRequired',
+            'store_product': self.store_product,
+            'phone_code_hash': self.phone_code_hash
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'\x80\xf9\xce\xd7',
+            self.serialize_bytes(self.store_product),
+            self.serialize_bytes(self.phone_code_hash),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        _store_product = reader.tgread_string()
+        _phone_code_hash = reader.tgread_string()
+        return cls(store_product=_store_product, phone_code_hash=_phone_code_hash)
+
+
 class SentCodeSuccess(TLObject):
     CONSTRUCTOR_ID = 0x2390fe44
     SUBCLASS_OF_ID = 0x6ce87081
 
     def __init__(self, authorization: 'TypeAuthorization'):
         """
-        Constructor for auth.SentCode: Instance of either SentCode, SentCodeSuccess.
+        Constructor for auth.SentCode: Instance of either SentCode, SentCodeSuccess, SentCodePaymentRequired.
         """
         self.authorization = authorization
 

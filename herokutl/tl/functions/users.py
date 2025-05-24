@@ -41,13 +41,13 @@ class GetFullUserRequest(TLRequest):
         return cls(id=_id)
 
 
-class GetIsPremiumRequiredToContactRequest(TLRequest):
-    CONSTRUCTOR_ID = 0xa622aa10
-    SUBCLASS_OF_ID = 0x15dfc3f1
+class GetRequirementsToContactRequest(TLRequest):
+    CONSTRUCTOR_ID = 0xd89a83a3
+    SUBCLASS_OF_ID = 0x322623c3
 
     def __init__(self, id: List['TypeInputUser']):
         """
-        :returns Vector<Bool>: This type has no constructors.
+        :returns Vector<RequirementToContact>: This type has no constructors.
         """
         self.id = id
 
@@ -60,13 +60,13 @@ class GetIsPremiumRequiredToContactRequest(TLRequest):
 
     def to_dict(self):
         return {
-            '_': 'GetIsPremiumRequiredToContactRequest',
+            '_': 'GetRequirementsToContactRequest',
             'id': [] if self.id is None else [x.to_dict() if isinstance(x, TLObject) else x for x in self.id]
         }
 
     def _bytes(self):
         return b''.join((
-            b'\x10\xaa"\xa6',
+            b'\xa3\x83\x9a\xd8',
             b'\x15\xc4\xb5\x1c',struct.pack('<i', len(self.id)),b''.join(x._bytes() for x in self.id),
         ))
 

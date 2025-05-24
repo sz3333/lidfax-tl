@@ -1922,6 +1922,41 @@ class ToggleAntiSpamRequest(TLRequest):
         return cls(channel=_channel, enabled=_enabled)
 
 
+class ToggleAutotranslationRequest(TLRequest):
+    CONSTRUCTOR_ID = 0x167fc0a1
+    SUBCLASS_OF_ID = 0x8af52aac
+
+    def __init__(self, channel: 'TypeInputChannel', enabled: bool):
+        """
+        :returns Updates: Instance of either UpdatesTooLong, UpdateShortMessage, UpdateShortChatMessage, UpdateShort, UpdatesCombined, Updates, UpdateShortSentMessage.
+        """
+        self.channel = channel
+        self.enabled = enabled
+
+    async def resolve(self, client, utils):
+        self.channel = utils.get_input_channel(await client.get_input_entity(self.channel))
+
+    def to_dict(self):
+        return {
+            '_': 'ToggleAutotranslationRequest',
+            'channel': self.channel.to_dict() if isinstance(self.channel, TLObject) else self.channel,
+            'enabled': self.enabled
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'\xa1\xc0\x7f\x16',
+            self.channel._bytes(),
+            b'\xb5ur\x99' if self.enabled else b'7\x97y\xbc',
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        _channel = reader.tgread_object()
+        _enabled = reader.tgread_bool()
+        return cls(channel=_channel, enabled=_enabled)
+
+
 class ToggleForumRequest(TLRequest):
     CONSTRUCTOR_ID = 0xa4298b29
     SUBCLASS_OF_ID = 0x8af52aac
@@ -2330,6 +2365,41 @@ class UpdateEmojiStatusRequest(TLRequest):
         _channel = reader.tgread_object()
         _emoji_status = reader.tgread_object()
         return cls(channel=_channel, emoji_status=_emoji_status)
+
+
+class UpdatePaidMessagesPriceRequest(TLRequest):
+    CONSTRUCTOR_ID = 0xfc84653f
+    SUBCLASS_OF_ID = 0x8af52aac
+
+    def __init__(self, channel: 'TypeInputChannel', send_paid_messages_stars: int):
+        """
+        :returns Updates: Instance of either UpdatesTooLong, UpdateShortMessage, UpdateShortChatMessage, UpdateShort, UpdatesCombined, Updates, UpdateShortSentMessage.
+        """
+        self.channel = channel
+        self.send_paid_messages_stars = send_paid_messages_stars
+
+    async def resolve(self, client, utils):
+        self.channel = utils.get_input_channel(await client.get_input_entity(self.channel))
+
+    def to_dict(self):
+        return {
+            '_': 'UpdatePaidMessagesPriceRequest',
+            'channel': self.channel.to_dict() if isinstance(self.channel, TLObject) else self.channel,
+            'send_paid_messages_stars': self.send_paid_messages_stars
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'?e\x84\xfc',
+            self.channel._bytes(),
+            struct.pack('<q', self.send_paid_messages_stars),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        _channel = reader.tgread_object()
+        _send_paid_messages_stars = reader.read_long()
+        return cls(channel=_channel, send_paid_messages_stars=_send_paid_messages_stars)
 
 
 class UpdatePinnedForumTopicRequest(TLRequest):

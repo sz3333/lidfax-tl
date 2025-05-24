@@ -5,7 +5,7 @@ import os
 import struct
 from datetime import datetime
 if TYPE_CHECKING:
-    from ...tl.types import TypeBankCardOpenUrl, TypeChat, TypeConnectedBotStarRef, TypeDataJSON, TypeInvoice, TypePaymentFormMethod, TypePaymentRequestedInfo, TypePaymentSavedCredentials, TypePeer, TypeSavedStarGift, TypeShippingOption, TypeStarGift, TypeStarGiftAttribute, TypeStarRefProgram, TypeStarsAmount, TypeStarsRevenueStatus, TypeStarsSubscription, TypeStarsTransaction, TypeStatsGraph, TypeUpdates, TypeUser, TypeWebDocument
+    from ...tl.types import TypeBankCardOpenUrl, TypeChat, TypeConnectedBotStarRef, TypeDataJSON, TypeInvoice, TypePaymentFormMethod, TypePaymentRequestedInfo, TypePaymentSavedCredentials, TypePeer, TypeSavedStarGift, TypeShippingOption, TypeStarGift, TypeStarGiftAttribute, TypeStarGiftAttributeCounter, TypeStarRefProgram, TypeStarsAmount, TypeStarsRevenueStatus, TypeStarsSubscription, TypeStarsTransaction, TypeStatsGraph, TypeUpdates, TypeUser, TypeWebDocument
 
 
 
@@ -775,6 +775,103 @@ class PaymentVerificationNeeded(TLObject):
     def from_reader(cls, reader):
         _url = reader.tgread_string()
         return cls(url=_url)
+
+
+class ResaleStarGifts(TLObject):
+    CONSTRUCTOR_ID = 0x947a12df
+    SUBCLASS_OF_ID = 0xb2dbb7e3
+
+    def __init__(self, count: int, gifts: List['TypeStarGift'], chats: List['TypeChat'], users: List['TypeUser'], next_offset: Optional[str]=None, attributes: Optional[List['TypeStarGiftAttribute']]=None, attributes_hash: Optional[int]=None, counters: Optional[List['TypeStarGiftAttributeCounter']]=None):
+        """
+        Constructor for payments.ResaleStarGifts: Instance of ResaleStarGifts.
+        """
+        self.count = count
+        self.gifts = gifts
+        self.chats = chats
+        self.users = users
+        self.next_offset = next_offset
+        self.attributes = attributes
+        self.attributes_hash = attributes_hash
+        self.counters = counters
+
+    def to_dict(self):
+        return {
+            '_': 'ResaleStarGifts',
+            'count': self.count,
+            'gifts': [] if self.gifts is None else [x.to_dict() if isinstance(x, TLObject) else x for x in self.gifts],
+            'chats': [] if self.chats is None else [x.to_dict() if isinstance(x, TLObject) else x for x in self.chats],
+            'users': [] if self.users is None else [x.to_dict() if isinstance(x, TLObject) else x for x in self.users],
+            'next_offset': self.next_offset,
+            'attributes': [] if self.attributes is None else [x.to_dict() if isinstance(x, TLObject) else x for x in self.attributes],
+            'attributes_hash': self.attributes_hash,
+            'counters': [] if self.counters is None else [x.to_dict() if isinstance(x, TLObject) else x for x in self.counters]
+        }
+
+    def _bytes(self):
+        assert ((self.attributes or self.attributes is not None) and (self.attributes_hash or self.attributes_hash is not None)) or ((self.attributes is None or self.attributes is False) and (self.attributes_hash is None or self.attributes_hash is False)), 'attributes, attributes_hash parameters must all be False-y (like None) or all me True-y'
+        return b''.join((
+            b'\xdf\x12z\x94',
+            struct.pack('<I', (0 if self.next_offset is None or self.next_offset is False else 1) | (0 if self.attributes is None or self.attributes is False else 2) | (0 if self.attributes_hash is None or self.attributes_hash is False else 2) | (0 if self.counters is None or self.counters is False else 4)),
+            struct.pack('<i', self.count),
+            b'\x15\xc4\xb5\x1c',struct.pack('<i', len(self.gifts)),b''.join(x._bytes() for x in self.gifts),
+            b'' if self.next_offset is None or self.next_offset is False else (self.serialize_bytes(self.next_offset)),
+            b'' if self.attributes is None or self.attributes is False else b''.join((b'\x15\xc4\xb5\x1c',struct.pack('<i', len(self.attributes)),b''.join(x._bytes() for x in self.attributes))),
+            b'' if self.attributes_hash is None or self.attributes_hash is False else (struct.pack('<q', self.attributes_hash)),
+            b'\x15\xc4\xb5\x1c',struct.pack('<i', len(self.chats)),b''.join(x._bytes() for x in self.chats),
+            b'' if self.counters is None or self.counters is False else b''.join((b'\x15\xc4\xb5\x1c',struct.pack('<i', len(self.counters)),b''.join(x._bytes() for x in self.counters))),
+            b'\x15\xc4\xb5\x1c',struct.pack('<i', len(self.users)),b''.join(x._bytes() for x in self.users),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        flags = reader.read_int()
+
+        _count = reader.read_int()
+        reader.read_int()
+        _gifts = []
+        for _ in range(reader.read_int()):
+            _x = reader.tgread_object()
+            _gifts.append(_x)
+
+        if flags & 1:
+            _next_offset = reader.tgread_string()
+        else:
+            _next_offset = None
+        if flags & 2:
+            reader.read_int()
+            _attributes = []
+            for _ in range(reader.read_int()):
+                _x = reader.tgread_object()
+                _attributes.append(_x)
+
+        else:
+            _attributes = None
+        if flags & 2:
+            _attributes_hash = reader.read_long()
+        else:
+            _attributes_hash = None
+        reader.read_int()
+        _chats = []
+        for _ in range(reader.read_int()):
+            _x = reader.tgread_object()
+            _chats.append(_x)
+
+        if flags & 4:
+            reader.read_int()
+            _counters = []
+            for _ in range(reader.read_int()):
+                _x = reader.tgread_object()
+                _counters.append(_x)
+
+        else:
+            _counters = None
+        reader.read_int()
+        _users = []
+        for _ in range(reader.read_int()):
+            _x = reader.tgread_object()
+            _users.append(_x)
+
+        return cls(count=_count, gifts=_gifts, chats=_chats, users=_users, next_offset=_next_offset, attributes=_attributes, attributes_hash=_attributes_hash, counters=_counters)
 
 
 class SavedInfo(TLObject):

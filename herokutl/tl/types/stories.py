@@ -113,6 +113,34 @@ class AllStoriesNotModified(TLObject):
         return cls(state=_state, stealth_mode=_stealth_mode)
 
 
+class CanSendStoryCount(TLObject):
+    CONSTRUCTOR_ID = 0xc387c04e
+    SUBCLASS_OF_ID = 0xcb53a298
+
+    def __init__(self, count_remains: int):
+        """
+        Constructor for stories.CanSendStoryCount: Instance of CanSendStoryCount.
+        """
+        self.count_remains = count_remains
+
+    def to_dict(self):
+        return {
+            '_': 'CanSendStoryCount',
+            'count_remains': self.count_remains
+        }
+
+    def _bytes(self):
+        return b''.join((
+            b'N\xc0\x87\xc3',
+            struct.pack('<i', self.count_remains),
+        ))
+
+    @classmethod
+    def from_reader(cls, reader):
+        _count_remains = reader.read_int()
+        return cls(count_remains=_count_remains)
+
+
 class FoundStories(TLObject):
     CONSTRUCTOR_ID = 0xe2de7737
     SUBCLASS_OF_ID = 0x17790b35
