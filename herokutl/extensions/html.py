@@ -9,8 +9,8 @@ from html.parser import HTMLParser
 from typing import Optional, Tuple, List, Generator, List, Optional, cast
 from abc import ABC, abstractmethod
 
-from .. import helpers
-from ..tl.types import (
+from herokutl import helpers
+from herokutl.tl.types import (
     MessageEntityBold, MessageEntityItalic, MessageEntityCode,
     MessageEntityPre, MessageEntityEmail, MessageEntityUrl,
     MessageEntityTextUrl, MessageEntityMentionName,
@@ -59,10 +59,6 @@ class HTMLToTelegramParser(HTMLParser):
             EntityType = MessageEntityStrike
         elif tag == 'blockquote':
             EntityType = MessageEntityBlockquote
-            if 'exp' in attrs or 'expandable' in attrs:
-                args["collapsed"] = True
-            else:
-                args["collapsed"] = False
         elif tag == 'code':
             try:
                 # If we're in the middle of a <pre> tag, this <code> tag is
@@ -169,7 +165,6 @@ class TextDecoration(ABC):
             MessageEntityCode: "code",
             MessageEntityUnderline: "underline",
             MessageEntityStrike: "strikethrough",
-            MessageEntityBlockquote: "blockquote",
         }
         if type(entity) in entity_map:
             if re.match(r"^<emoji document_id=\"?\d+?\"?>[^<]*?<\/emoji>$", text):
@@ -192,6 +187,8 @@ class TextDecoration(ABC):
             return self.link(value=text, link=f"mailto:{text}")
         if type(entity) == MessageEntityCustomEmoji and CUSTOM_EMOJIS:
             return self.custom_emoji(value=text, document_id=entity.document_id)
+        if type(entity) == MessageEntityBlockquote:
+            return self.blockquote(value=text, collapsed=bool(entity.collapsed))
 
         return self.quote(text)
 
@@ -329,7 +326,9 @@ class HtmlDecoration(TextDecoration):
     def quote(self, value: str) -> str:
         return escape(value, quote=False)
 
-    def blockquote(self, value: str) -> str:
+    def blockquote(self, value: str, collapsed: bool = False) -> str:
+        if collapsed:
+            return f"<blockquote expandable>{value}</blockquote>"
         return f"<blockquote>{value}</blockquote>"
 
     def custom_emoji(self, value: str, document_id: str) -> str:
