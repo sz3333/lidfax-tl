@@ -9,8 +9,8 @@ from html.parser import HTMLParser
 from typing import Optional, Tuple, List, Generator, List, Optional, cast
 from abc import ABC, abstractmethod
 
-from herokutl import helpers
-from herokutl.tl.types import (
+from .. import helpers
+from ..tl.types import (
     MessageEntityBold, MessageEntityItalic, MessageEntityCode,
     MessageEntityPre, MessageEntityEmail, MessageEntityUrl,
     MessageEntityTextUrl, MessageEntityMentionName,
@@ -59,6 +59,10 @@ class HTMLToTelegramParser(HTMLParser):
             EntityType = MessageEntityStrike
         elif tag == 'blockquote':
             EntityType = MessageEntityBlockquote
+            if 'exp' in attrs or 'expandable' in attrs:
+                args["collapsed"] = True
+            else:
+                args["collapsed"] = False
         elif tag == 'code':
             try:
                 # If we're in the middle of a <pre> tag, this <code> tag is
