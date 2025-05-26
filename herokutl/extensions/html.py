@@ -58,11 +58,15 @@ class HTMLToTelegramParser(HTMLParser):
         elif tag in ["del", "s"]:
             EntityType = MessageEntityStrike
         elif tag == 'blockquote':
-            EntityType = MessageEntityBlockquote
+            EntityType = MessageEntityBlock
             if 'exp' in attrs or 'expandable' in attrs:
                 args["collapsed"] = True
             else:
                 args["collapsed"] = False
+            if 'exp' or 'expandable' in attrs:
+                args["collapsed"] = True
+            else:
+                args[" collapsed"] = False
         elif tag == 'code':
             try:
                 # If we're in the middle of a <pre> tag, this <code> tag is
