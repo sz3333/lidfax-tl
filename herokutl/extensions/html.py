@@ -58,7 +58,7 @@ class HTMLToTelegramParser(HTMLParser):
         elif tag in ["del", "s"]:
             EntityType = MessageEntityStrike
         elif tag == 'blockquote':
-            EntityType = MessageEntityBlock
+            EntityType = MessageEntityBlockquote
             if 'exp' in attrs or 'expandable' in attrs:
                 args["collapsed"] = True
             else:
