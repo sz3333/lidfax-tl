@@ -336,7 +336,6 @@ tlobjects = {
     0x6a4ee832: types.help.DeepLinkInfo,
     0x66afa166: types.help.DeepLinkInfoEmpty,
     0x43b46b20: types.DefaultHistoryTTL,
-    0xa2c0cf74: functions.account.DeleteAccountRequest,
     0x53bc0020: functions.account.DeleteAutoSaveExceptionsRequest,
     0x60073674: functions.account.DeleteBusinessChatLinkRequest,
     0x1013fd9e: functions.contacts.DeleteByPhonesRequest,
