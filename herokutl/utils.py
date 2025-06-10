@@ -4,7 +4,6 @@ to convert between an entity like a User, Chat, etc. into its Input version)
 """
 import base64
 import binascii
-import imghdr
 import inspect
 import io
 import itertools
