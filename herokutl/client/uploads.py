@@ -233,6 +233,7 @@ class UploadMethods:
         file_handle, media, image = await self._file_to_media(
             file, force_document=force_document,
             file_size=file_size,
+            mime_type=mime_type,
             progress_callback=progress_callback,
             attributes=attributes, allow_cache=allow_cache, thumb=thumb,
             voice_note=voice_note, video_note=video_note,
