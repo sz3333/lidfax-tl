@@ -172,7 +172,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
 
     # region Initialization
 
-   def __init__(
+    def __init__(
         self,
         id: int,
         peer_id: types.TypePeer,
