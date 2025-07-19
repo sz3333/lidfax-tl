@@ -134,6 +134,7 @@ class UploadMethods:
             *,
             caption: typing.Union[str, typing.Sequence[str]] = None,
             force_document: bool = False,
+            mime_type: str = None,
             file_size: int = None,
             clear_draft: bool = False,
             progress_callback: 'hints.ProgressCallback' = None,
