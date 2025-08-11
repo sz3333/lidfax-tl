@@ -7,7 +7,8 @@ from ..tl import types, custom
 class ButtonMethods:
     @staticmethod
     def build_reply_markup(
-            buttons: 'typing.Optional[hints.MarkupLike]') -> 'typing.Optional[types.TypeReplyMarkup]':
+            buttons: 'typing.Optional[hints.MarkupLike]'
+    ) -> 'typing.Optional[types.TypeReplyMarkup]':
         """
         Builds a :tl:`ReplyInlineMarkup` or :tl:`ReplyKeyboardMarkup` for
         the given buttons.
@@ -38,7 +39,7 @@ class ButtonMethods:
             return None
 
         try:
-            if buttons.SUBCLASS_OF_ID == 0xe2e10ef2:
+            if buttons.SUBCLASS_OF_ID == 0xe2e10ef2:  # crc32(b'ReplyMarkup'):
                 return buttons
         except AttributeError:
             pass

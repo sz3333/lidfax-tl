@@ -152,7 +152,7 @@ class MTProtoState:
         """
         Inverse of `encrypt_message_data` for incoming server messages.
         """
-        now = time.time() # get the time as early as possible, even if other checks make it go unused
+        now = time.time()  # get the time as early as possible, even if other checks make it go unused
 
         if len(body) < 8:
             raise InvalidBufferError(body)
@@ -228,7 +228,6 @@ class MTProtoState:
         self._ignore_count = 0
 
         return TLMessage(remote_msg_id, remote_sequence, obj)
-
 
     def _count_ignored(self):
         # It's possible that ignoring a message "bricks" the connection,

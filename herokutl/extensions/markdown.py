@@ -1,6 +1,6 @@
 """
 Simple markdown parser which does not support nesting. Intended primarily
-for use within the library, which attempts to handle emojis correctly,
+for use within the library, which attempts to handle emojies correctly,
 since they seem to count as two characters and it's a bit strange.
 """
 import re
@@ -37,7 +37,7 @@ def parse(message, delimiters=None, url_re=None):
 
     :param message: the message with markdown-like syntax to be parsed.
     :param delimiters: the delimiters to be used, {delimiter: type}.
-    :param url_re: the URL regex to be used. Must have two groups.
+    :param url_re: the URL bytes regex to be used. Must have two groups.
     :return: a tuple consisting of (clean message, [message entities]).
     """
     if not message:

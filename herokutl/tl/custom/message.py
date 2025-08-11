@@ -96,7 +96,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
             The ID of the bot used to send this message
             through its inline mode (e.g. "via @like").
 
-        reply_to (:tl:`MessageReplyHeader`):
+        reply_to (:tl:`MessageReplyHeader` | :tl:`MessageReplyStoryHeader`):
             The original reply header if this message is replying to another.
 
         date (`datetime`):
@@ -424,10 +424,11 @@ class Message(ChatGetter, SenderGetter, TLObject):
     @property
     def is_reply(self):
         """
-        `True` if the message is a reply to some other message.
+        `True` if the message is a reply to some other message or story.
 
-        Remember that you can access the ID of the message
-        this one is replying to through `reply_to.reply_to_msg_id`,
+        Remember that if the replied-to is a message, 
+        you can access the ID of the message this one is 
+        replying to through `reply_to.reply_to_msg_id`,
         and the `Message` object with `get_reply_message()`.
         """
         return self.reply_to is not None
@@ -1004,13 +1005,13 @@ class Message(ChatGetter, SenderGetter, TLObject):
                 button to transfer ownership), if your account has 2FA enabled,
                 you need to provide your account's password. Otherwise,
                 `teltehon.errors.PasswordHashInvalidError` is raised.
-                            
+            
             open_url (`bool`):
                 When clicking on an inline keyboard URL button :tl:`KeyboardButtonUrl`
                 By default it will return URL of the button, passing ``click(open_url=True)``
                 will lunch the default browser with given URL of the button and 
                 return `True` on success.
-
+                
             Example:
 
                 .. code-block:: python

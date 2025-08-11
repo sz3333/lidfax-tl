@@ -494,6 +494,16 @@ class MessageBox:
 
         real_result.extend(u for u in result if not u._self_outgoing)
 
+        if result and not self.possible_gaps:
+            # > If the updates were applied, local *Updates* state must be updated
+            # > with `seq` (unless it's 0) and `date` from the constructor.
+            if __debug__:
+                self._trace('Updating seq as all updates were applied')
+            if date != epoch():
+                self.date = date
+            if seq != NO_SEQ:
+                self.seq = seq
+
         return (users, chats)
 
     # Tries to apply the input update if its `PtsInfo` follows the correct order.
@@ -506,7 +516,6 @@ class MessageBox:
         update,
         *,
         reset_deadlines,
-        any_pts_applied=[True],  # mutable default is fine as it's write-only
     ):
         # This update means we need to call getChannelDifference to get the updates from the channel
         if isinstance(update, tl.UpdateChannelTooLong):
@@ -558,7 +567,6 @@ class MessageBox:
                 return None
             else:
                 # Apply
-                any_pts_applied[0] = True
                 if __debug__:
                     self._trace('Applying update pts since local pts %r = %r: %s', local_pts, pts, update)
 

@@ -14,6 +14,7 @@ import os
 import pathlib
 import re
 import struct
+import warnings
 from collections import namedtuple
 from mimetypes import guess_extension
 from types import GeneratorType
@@ -96,7 +97,8 @@ def get_display_name(entity):
         else:
             return ''
 
-    elif isinstance(entity, (types.Chat, types.ChatForbidden, types.Channel, types.ChannelForbidden)):
+    elif isinstance(entity, (
+            types.Chat, types.ChatForbidden, types.Channel, types.ChannelForbidden)):
         return entity.title
 
     return ''
@@ -437,15 +439,16 @@ def get_input_media(
         if media.SUBCLASS_OF_ID == 0xfaf846f4:  # crc32(b'InputMedia')
             return media
         elif media.SUBCLASS_OF_ID == 0x846363e0:  # crc32(b'InputPhoto')
-            return types.InputMediaPhoto(media, ttl_seconds=ttl)
+            return types.InputMediaPhoto(media, ttl_seconds=ttl, spoiler=media.spoiler)
         elif media.SUBCLASS_OF_ID == 0xf33fdb68:  # crc32(b'InputDocument')
-            return types.InputMediaDocument(media, ttl_seconds=ttl)
+            return types.InputMediaDocument(media, ttl_seconds=ttl, spoiler=media.spoiler)
     except AttributeError:
         _raise_cast_fail(media, 'InputMedia')
 
     if isinstance(media, types.MessageMediaPhoto):
         return types.InputMediaPhoto(
             id=get_input_photo(media.photo),
+            spoiler=media.spoiler,
             ttl_seconds=ttl or media.ttl_seconds
         )
 
@@ -458,7 +461,6 @@ def get_input_media(
     if isinstance(media, types.MessageMediaDocument):
         return types.InputMediaDocument(
             id=get_input_document(media.document),
-            spoiler=media.spoiler,
             ttl_seconds=ttl or media.ttl_seconds
         )
 
@@ -508,7 +510,6 @@ def get_input_media(
             heading=media.heading,
             proximity_notification_radius=media.proximity_notification_radius,
         )
-
 
     if isinstance(media, types.MessageMediaVenue):
         return types.InputMediaVenue(
@@ -1558,7 +1559,14 @@ def _photo_size_byte_count(size):
         return max(size.sizes)
     else:
         return None
-        
+
+
+async def maybe_async(coro):
+    result = coro
+    if inspect.isawaitable(result):
+        warnings.warn('Using async sessions support is an experimental feature')
+        result = await result
+    return result
 def convert_reaction(
     reaction: "typing.Optional[hints.Reaction]" = None,  # type: ignore
 ) -> "typing.Optional[typing.Union[typing.List[types.ReactionEmoji], typing.List[types.ReactionCustomEmoji]]]":  # type: ignore
