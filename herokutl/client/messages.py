@@ -934,6 +934,7 @@ class MessageMethods:
                 id=result.id,
                 peer_id=await self._get_peer(entity),
                 message=message,
+                invert_media=invert_media,
                 date=result.date,
                 out=result.out,
                 media=result.media,
