@@ -642,6 +642,7 @@ class MessageMethods:
             background: bool = None,
             supports_streaming: bool = False,
             schedule: 'hints.DateLike' = None,
+            invert_media: bool = False,
             comment_to: 'typing.Union[int, types.Message]' = None,
             nosound_video: bool = None,
             send_as: typing.Optional['hints.EntityLike'] = None,
@@ -846,7 +847,8 @@ class MessageMethods:
                 attributes=attributes, parse_mode=parse_mode,
                 force_document=force_document, thumb=thumb,
                 buttons=buttons, clear_draft=clear_draft, silent=silent,
-                schedule=schedule, supports_streaming=supports_streaming,
+                schedule=schedule,
+                invert_media=invert_media, supports_streaming=supports_streaming,
                 formatting_entities=formatting_entities,
                 comment_to=comment_to, background=background,
                 nosound_video=nosound_video,
@@ -881,6 +883,7 @@ class MessageMethods:
                     formatting_entities=message.entities,
                     parse_mode=None,  # explicitly disable parse_mode to force using even empty formatting_entities
                     schedule=schedule,
+                    invert_media=invert_media,
                     send_as=send_as, message_effect_id=message_effect_id
                 )
 
@@ -896,6 +899,7 @@ class MessageMethods:
                 no_webpage=not isinstance(
                     message.media, types.MessageMediaWebPage),
                 schedule_date=schedule,
+                invert_media=invert_media,
                 send_as=await self.get_input_entity(send_as) if send_as else None,
                 effect=message_effect_id
             )
@@ -919,6 +923,7 @@ class MessageMethods:
                 background=background,
                 reply_markup=self.build_reply_markup(buttons),
                 schedule_date=schedule,
+                invert_media=invert_media,
                 send_as=await self.get_input_entity(send_as) if send_as else None,
                 effect=message_effect_id
             )
