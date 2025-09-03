@@ -10,8 +10,8 @@ _EPOCH_NAIVE_LOCAL = datetime(*time.localtime(0)[:6])
 _EPOCH = _EPOCH_NAIVE.replace(tzinfo=timezone.utc)
 
 
-FORBIDDEN_CONSTRUCTORS = [0x418d4e0b, 0xa2c0cf74]
-FORBIDDEN_SUBCLASSES = [0xf5b399ac]
+FORBIDDEN_CONSTRUCTORS = [0x418d4e0b, 0xa2c0cf74, 0x548a30f5, 0x449e0b51, 0x9308ce1b, 0xd18b4d16, 0xd36bf79, 0x9cd4eaf9, 0xa59b102f, 0x9a5c33e5, 0x9fab0d1a, 0x9fab0d1a, 0xa929597a, 0xe320c158, 0xf8654027]
+FORBIDDEN_SUBCLASSES = [0xf5b399ac, 0x53a211a3, 0xb064992d, 0x49507416, 0xb9e04e39, 0xf5b399ac, 0xd23fb078, 0xf5b399ac, 0xd23fb078, 0xf5b399ac, 0xf5b399ac, 0x78049a94, 0xbf5e0ff, 0x86ddbed1]
 
 def _datetime_to_timestamp(dt):
     if dt.tzinfo is None:
