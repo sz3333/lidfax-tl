@@ -1564,12 +1564,6 @@ def _photo_size_byte_count(size):
         return None
 
 
-async def maybe_async(coro):
-    result = coro
-    if inspect.isawaitable(result):
-        #warnings.warn('Using async sessions support is an experimental feature')
-        result = await result
-    return result
 def convert_reaction(
     reaction: "typing.Optional[hints.Reaction]" = None,  # type: ignore
 ) -> "typing.Optional[typing.Union[typing.List[types.ReactionEmoji], typing.List[types.ReactionCustomEmoji]]]":  # type: ignore

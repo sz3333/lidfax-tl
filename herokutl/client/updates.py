@@ -289,7 +289,7 @@ class UpdateMethods:
                         len(self._mb_entity_cache),
                         self._entity_cache_limit
                     )
-                    await self._save_states_and_entities()
+                    self._save_states_and_entities()
                     self._mb_entity_cache.retain(lambda id: id == self._mb_entity_cache.self_id or id in self._message_box.map)
                     if len(self._mb_entity_cache) >= self._entity_cache_limit:
                         warnings.warn('in-memory entities exceed entity_cache_limit after flushing; consider setting a larger limit')
@@ -462,7 +462,7 @@ class UpdateMethods:
                 except GapError:
                     continue  # get(_channel)_difference will start returning requests
 
-                updates_to_dispatch.extend(self._preprocess_updates(updates, users, chats))
+                updates_to_dispatch.extend(self._preprocess_updates(processed, users, chats))
         except asyncio.CancelledError:
             pass
         except Exception as e:
