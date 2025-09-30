@@ -80,7 +80,7 @@ class UserMethods:
                             exceptions.append(e)
                             results.append(None)
                             continue
-                        await utils.maybe_async(self.session.process_entities(result))
+                        self.session.process_entities(result)
                         exceptions.append(None)
                         results.append(result)
                         request_index += 1
@@ -90,7 +90,7 @@ class UserMethods:
                         return results
                 else:
                     result = await future
-                    await utils.maybe_async(self.session.process_entities(result))
+                    self.session.process_entities(result)
                     return result
             except (errors.ServerError, errors.RpcCallFailError,
                     errors.RpcMcgetFailError, errors.InterdcCallErrorError,
@@ -435,8 +435,7 @@ class UserMethods:
 
         # No InputPeer, cached peer, or known string. Fetch from disk cache
         try:
-            input_entity = await utils.maybe_async(self.session.get_input_entity(peer))
-            return input_entity
+            return self.session.get_input_entity(peer)
         except ValueError:
             pass
 
@@ -575,8 +574,8 @@ class UserMethods:
                     pass
             try:
                 # Nobody with this username, maybe it's an exact name/title
-                input_entity = await utils.maybe_async(self.session.get_input_entity(string))
-                return await self.get_entity(input_entity)
+                return await self.get_entity(
+                    self.session.get_input_entity(string))
             except ValueError:
                 pass
 
