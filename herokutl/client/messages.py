@@ -1100,6 +1100,7 @@ class MessageMethods:
             link_preview: bool = True,
             file: 'hints.FileLike' = None,
             thumb: 'hints.FileLike' = None,
+            invert_media: bool = False,
             force_document: bool = False,
             buttons: typing.Optional['hints.MarkupLike'] = None,
             supports_streaming: bool = False,
@@ -1236,6 +1237,7 @@ class MessageMethods:
                 id=entity,
                 message=text,
                 no_webpage=not link_preview,
+                invert_media=invert_media,
                 entities=formatting_entities,
                 media=media,
                 reply_markup=self.build_reply_markup(buttons)
@@ -1258,6 +1260,7 @@ class MessageMethods:
             id=utils.get_message_id(message),
             message=text,
             no_webpage=not link_preview,
+            invert_media=invert_media,
             entities=formatting_entities,
             media=media,
             reply_markup=self.build_reply_markup(buttons),
