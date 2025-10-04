@@ -1,4 +1,4 @@
-# Herokutl
+# LidFaxtl
 
 > ⭐️ Thanks **everyone** who has starred the project, it means a lot!
 
@@ -13,13 +13,13 @@ Telegram is a popular messaging application. This library is meant to make it ea
 ## Installing
 
 ```sh
-pip3 install heroku-tl-new
+pip3 install lidfax-tl
 ```
 
 ## Creating a client
 
 ```python
-from herokutl import TelegramClient, events, sync
+from lidfaxtl import TelegramClient, events, sync
 
 # These example values won't work. You must get your own api_id and
 # api_hash from https://my.telegram.org, under API Development.
