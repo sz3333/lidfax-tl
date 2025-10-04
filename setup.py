@@ -179,7 +179,7 @@ def main(argv):
 
         # Try importing the telethon module to assert it has no errors
         try:
-            import herokutl
+            import lidfaxtl
         except:
             print('Packaging for PyPi aborted, importing the module failed.')
             return
@@ -195,7 +195,7 @@ def main(argv):
         run('python3 setup.py sdist', shell=True)
         run('python3 setup.py bdist_wheel', shell=True)
         run('twine upload dist/*', shell=True)
-        for x in ('build', 'dist', 'Heroku-TL.egg-info'):
+        for x in ('build', 'dist', 'LidFax-TL.egg-info'):
             shutil.rmtree(x, ignore_errors=True)
 
     else:
@@ -207,11 +207,11 @@ def main(argv):
         with open('README.rst', 'r', encoding='utf-8') as f:
             long_description = f.read()
 
-        with open('herokutl/version.py', 'r', encoding='utf-8') as f:
+        with open('lidfaxtl/version.py', 'r', encoding='utf-8') as f:
             version = re.search(r"^__version__\s*=\s*'(.*)'.*$",
                                 f.read(), flags=re.MULTILINE).group(1)
         setup(
-            name='heroku-tl-new',
+            name='lidfax-tl',
             version=version,
             description="This library is built for the Heroku userbot and is based on Telethon.",
             long_description=long_description,
@@ -220,8 +220,8 @@ def main(argv):
             url='https://github.com/coddrago/heroku-tl',
             download_url='https://pypi.org/project/heroku-tl-new/',
 
-            author='Codrago',
-            author_email='codrago@xyecoc.com',
+            author='LidF1x',
+            author_email='LidF1x@xyecoc.com',
 
             license='CCBYNCND V4',
 
