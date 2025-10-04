@@ -1,7 +1,7 @@
-# Лицензия на использование проекта Heroku-TL
+# Лицензия на использование проекта LidFax-TL
 
-**© 2025–2030 [@codrago](https://t.me/codrago)**  
-Проект: [Heroku-TL](https://github.com/sz3333/lidfax-tl)
+**© 2025–2030 [@LidF1x](https://t.me/DepositUser)**  
+Проект: [LidFax-TL](https://github.com/sz3333/lidfax-tl)
 
 ## RU: Условия использования
 
@@ -25,14 +25,14 @@
 
 ## Контакты
 
-- Telegram: [@codrago](https://t.me/codrago)  
-- Email: [codrago@codwiz.gay](mailto:codrago@codwiz.gay)  
-- Сайты: [https://bio.codrago.top](https://bio.codrago.top)
+- Telegram: [@LidF1x](https://t.me/DepositUser)  
+- Email: [LidF1x@xyecoc.com](mailto:lidf1x@xyecoc.com)  
+- Сайты: [https://google.nl](https://google.nl)
 
 ## Область действия
 
 Данная лицензия распространяется **исключительно** на репозиторий:  
-[https://github.com/sz3333/lidfax-tl](https://github.com/sz3333/lidfax-tl)
+[https://github.com/coddrago/Heroku-TL](https://github.com/coddrago/Heroku-TL)
 
 ---
 
