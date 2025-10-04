@@ -33,9 +33,8 @@ jobs:
 
       # Публикуем на PyPI (только один раз, например на 3.10)
       - name: Publish package to PyPI
-        if: matrix.python-version == '3.10'
+        if: ${{ matrix.python-version == '3.10' }}
         env:
           TWINE_USERNAME: "__token__"
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: twine upload dist/*        with:
-          packages-dir: dist/
+        run: twine upload dist/*
