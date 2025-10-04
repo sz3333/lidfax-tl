@@ -1,7 +1,7 @@
 # Лицензия на использование проекта Heroku-TL
 
 **© 2025–2030 [@codrago](https://t.me/codrago)**  
-Проект: [Heroku-TL](https://github.com/sz3333/Heroku-TL)
+Проект: [Heroku-TL](https://github.com/sz3333/lidfax-tl)
 
 ## RU: Условия использования
 
@@ -32,14 +32,14 @@
 ## Область действия
 
 Данная лицензия распространяется **исключительно** на репозиторий:  
-[https://github.com/sz3333/Heroku-TL](https://github.com/sz3333/Heroku-TL)
+[https://github.com/sz3333/lidfax-tl](https://github.com/sz3333/lidfax-tl)
 
 ---
 
 # License for Heroku-TL Project (EN)
 
 **© 2025–2030 [@codrago](https://t.me/codrago)**  
-Project: [Heroku-TL](https://github.com/sz3333/Heroku-TL)
+Project: [Heroku-TL](https://github.com/sz3333/lidfax-tl)
 
 ## Terms of Use
 
@@ -70,4 +70,4 @@ Violation of this license may result in **a lawsuit** on the following grounds:
 ## Scope
 
 This license **only applies** to the following repository:  
-[https://github.com/sz3333/Heroku-TL](https://github.com/sz3333/Heroku-TL)
+[https://github.com/sz3333/lidfax-tl](https://github.com/sz3333/lidfax-tl)
