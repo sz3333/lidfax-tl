@@ -1,7 +1,7 @@
-# Лицензия на использование проекта LidFax-TL
+# Лицензия на использование проекта Heroku-TL
 
-**© 2025–2030 [@LidF1x](https://t.me/DepositUser)**  
-Проект: [LidFax-TL](https://github.com/sz3333/lidfax-tl)
+**© 2025–2030 [@codrago](https://t.me/codrago)**  
+Проект: [Heroku-TL](https://github.com/coddrago/Heroku-TL)
 
 ## RU: Условия использования
 
@@ -10,7 +10,7 @@
 3. **Разрешено только личное и немодифицированное использование.**  
 4. **Коммерческое использование проекта возможно только с согласия авторов.**  
 5. **Игнорирование просьбы удалить код из репозитория/хранилища при обнаружении нарушения приведёт к юридическим последствиям.**  
-6. **Разрешено использование только официальной библиотеки, размещённой на PyPI: [lidfax-tl](https://pypi.org/project/lidfax-tl/)**  
+6. **Разрешено использование только официальной библиотеки, размещённой на PyPI: [heroku-tl-new](https://pypi.org/project/heroku-tl-new/)**  
 7. **Любое нарушение данных условий приведёт к юридическим последствиям.**
 
 ## Ответственность
@@ -25,9 +25,9 @@
 
 ## Контакты
 
-- Telegram: [@LidF1x](https://t.me/DepositUser)  
-- Email: [LidF1x@xyecoc.com](mailto:lidf1x@xyecoc.com)  
-- Сайты: [https://google.nl](https://google.nl)
+- Telegram: [@codrago](https://t.me/codrago)  
+- Email: [codrago@codwiz.gay](mailto:codrago@codwiz.gay)  
+- Сайты: [https://bio.codrago.top](https://bio.codrago.top)
 
 ## Область действия
 
@@ -39,7 +39,7 @@
 # License for Heroku-TL Project (EN)
 
 **© 2025–2030 [@codrago](https://t.me/codrago)**  
-Project: [Heroku-TL](https://github.com/sz3333/lidfax-tl)
+Project: [Heroku-TL](https://github.com/coddrago/Heroku-TL)
 
 ## Terms of Use
 
@@ -48,7 +48,7 @@ Project: [Heroku-TL](https://github.com/sz3333/lidfax-tl)
 3. **Only personal and unmodified usage is permitted.**  
 4. **Commercial use is only allowed with explicit permission from the authors.**  
 5. **Ignoring a formal request to remove this code from your repository/storage will result in legal action.**  
-6. **Only the official PyPI library is allowed for use: [lidfax-tl](https://pypi.org/project/lidfax-tl/)**  
+6. **Only the official PyPI library is allowed for use: [heroku-tl-new](https://pypi.org/project/heroku-tl-new/)**  
 7. **Any violation of these terms may lead to legal consequences.**
 
 ## Liability
@@ -70,4 +70,4 @@ Violation of this license may result in **a lawsuit** on the following grounds:
 ## Scope
 
 This license **only applies** to the following repository:  
-[https://github.com/sz3333/lidfax-tl](https://github.com/sz3333/lidfax-tl)
+[https://github.com/coddrago/Heroku-TL](https://github.com/coddrago/Heroku-TL)
